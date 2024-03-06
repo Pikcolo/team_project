@@ -16,5 +16,8 @@ response_json = response.json()
 import pandas as pd
 
 pd_from_dict = pd.DataFrame.from_dict(response_json["stations"][0]["data"])
-print(pformat(pd_from_dict))
-pd_from_dict.to_csv(f"air4thai_{station_id}_{start_date}_{end_date}.csv")
+# print(pformat(pd_from_dict))
+pd_from_dict.fillna(pd_from_dict.mean(numeric_only=True), inplace=True)
+data = pd_from_dict.dropna(axis=1)
+print(data)
+data.to_csv(f"air4thai_{station_id}_{start_date}_{end_date}.csv")
