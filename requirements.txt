@@ -6,3 +6,4 @@ numpy
 pandas
 matplotlib
 dash_mantine_components
+plotly
