@@ -1,7 +1,6 @@
 import pandas as pd
 import plotly.express as px
 from dash import Dash, html, dcc, callback, Output, Input
-import dash_html_components as html
 import dash_bootstrap_components as dbc
 
 # Load Data
@@ -31,12 +30,8 @@ app.layout = html.Div(
     children=[
         html.Div(
             children=[
-                html.P(children="☁️", className="header-emoji"),
+                html.P(children="☁️ Air Quality Analytics ☁️", className="header-emoji"),
                 html.H1(children="Air Quality Analytics", className="header-title"),
-                html.P(
-                    children="Analyze the air quality data",
-                    className="header-description",
-                ),
             ],
             className="header",
         ),
@@ -112,24 +107,24 @@ app.layout = html.Div(
             className="wrapper",
         ),
         html.Div(
-            children=[
-                html.Div(
-                    children=[
-                        html.Div(children="Parameter", className="menu-title"),
-                        dcc.Dropdown(
-                            id="parameter-predict",
-                            options=[
-                                {"label": param, "value": param}
-                                for param in predict_data.columns[1:]
-                            ],
-                            value="PM25",
-                            clearable=False,
-                            className="dropdown",
-                        ),
-                    ]
-                ),
-            ],
-            className="menu",
+                children=[
+                    html.Div(
+                        children=[
+                            html.Div(children="Parameter", className="menu-title"),
+                            dcc.Dropdown(
+                                id="parameter-predict",
+                                options=[
+                                    {"label": param, "value": param}
+                                    for param in predict_data.columns[1:]
+                                ],
+                                value="PM25",
+                                clearable=False,
+                                className="dropdown",
+                            ),
+                        ]
+                    ),
+                ],
+                className= "menu"
         ),
         html.Div(
             children=[
