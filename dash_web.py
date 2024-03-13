@@ -4,8 +4,8 @@ from dash import Dash, html, dcc, callback, Output, Input
 import dash_bootstrap_components as dbc
 
 # Load Data
-data = pd.read_csv("team_project/data_cleaned.csv")
-predict_data = pd.read_csv("team_project/data_cleaned.csv")
+data = pd.read_csv("team_project/air4thai_44t_stations_data.csv")
+predict_data = pd.read_csv("team_project/air4thai_44t_stations_data.csv")
 
 # Data Preprocessing
 data["DATETIMEDATA"] = pd.to_datetime(data["DATETIMEDATA"], format="%Y-%m-%d %H:%M:%S")
@@ -69,6 +69,25 @@ app.layout = html.Div(
                         ),
                     ]
                 ),
+                html.Div(
+                    children=[
+                        html.Div(
+                            children="Chart Type",
+                            className="menu-title"
+                        ),
+                        dcc.Dropdown(
+                            id="chart-type",
+                            options=[
+                                {"label": "Line Chart", "value": "line"},
+                                {"label": "Bar Chart", "value": "bar"},
+                                {"label": "Scatter Plot", "value": "scatter"},
+                            ],
+                            value="line",
+                            clearable=False,
+                            className="dropdown",
+                        ),
+                    ]
+                )
             ],
             className="menu",
         ),
@@ -125,6 +144,25 @@ app.layout = html.Div(
                             ),
                         ]
                     ),
+                    html.Div(
+                    children=[
+                        html.Div(
+                            children="Chart Type",
+                            className="menu-title"
+                        ),
+                        dcc.Dropdown(
+                            id="chart-type",
+                            options=[
+                                {"label": "Line Chart", "value": "line"},
+                                {"label": "Bar Chart", "value": "bar"},
+                                {"label": "Scatter Plot", "value": "scatter"},
+                            ],
+                            value="line",
+                            clearable=False,
+                            className="dropdown",
+                        ),
+                    ]
+                )
                 ],
                 className= "menu"
         ),
@@ -149,20 +187,35 @@ app.layout = html.Div(
         Input("parameter-filter", "value"),
         Input("date-range", "start_date"),
         Input("date-range", "end_date"),
+        Input("chart-type", "value"),
     ],
 )
-def update_chart(selected_parameter, start_date, end_date):
+def update_chart(selected_parameter, start_date, end_date, chart_type):
     mask = (
         (data["DATETIMEDATA"] >= start_date)
         & (data["DATETIMEDATA"] <= end_date)
     )
     filtered_data = data.loc[mask]
-    trace = {
-        "x": filtered_data["DATETIMEDATA"],
-        "y": filtered_data[selected_parameter],
-        "type": "lines",
-        "name": selected_parameter,
-    }
+    if chart_type == "line":
+        trace = {
+            "x": filtered_data["DATETIMEDATA"],
+            "y": filtered_data[selected_parameter],
+            "type": "line",
+        }
+    elif chart_type == "scatter":
+        trace = {
+            "x": filtered_data["DATETIMEDATA"],
+            "y": filtered_data[selected_parameter],
+            "mode": "markers",  # Scatter plot with markers
+            "type": "scatter",
+        }
+    elif chart_type == "bar":
+        trace = {
+            "x": filtered_data["DATETIMEDATA"],
+            "y": filtered_data[selected_parameter],
+            "type": "bar",
+        }
+
     layout = {
         "title": f"{selected_parameter} over Time",
         "xaxis": {"title": "Datetime"},
@@ -222,20 +275,35 @@ def update_stats_table(selected_parameter, start_date, end_date):
         Input("parameter-predict", "value"),
         Input("date-range", "start_date"),
         Input("date-range", "end_date"),
+        Input("chart-type", "value"),
     ],
 )
-def update_predict_chart(selected_parameter, start_date, end_date):
+def update_predict_chart(selected_parameter, start_date, end_date, chart_type):
     mask = (
         (data["DATETIMEDATA"] >= start_date)
         & (data["DATETIMEDATA"] <= end_date)
     )
     filtered_data = predict_data.loc[mask]
-    trace = {
-        "x": filtered_data["DATETIMEDATA"],
-        "y": filtered_data[selected_parameter],
-        "type": "lines",
-        "name": selected_parameter,
-    }
+    if chart_type == "line":
+        trace = {
+            "x": filtered_data["DATETIMEDATA"],
+            "y": filtered_data[selected_parameter],
+            "type": "line",
+        }
+    elif chart_type == "scatter":
+        trace = {
+            "x": filtered_data["DATETIMEDATA"],
+            "y": filtered_data[selected_parameter],
+            "mode": "markers",  # Scatter plot with markers
+            "type": "scatter",
+        }
+    elif chart_type == "bar":
+        trace = {
+            "x": filtered_data["DATETIMEDATA"],
+            "y": filtered_data[selected_parameter],
+            "type": "bar",
+        }
+
     layout = {
         "title": f"{selected_parameter} Prediction for the next week",
         "xaxis": {"title": "Datetime"},
