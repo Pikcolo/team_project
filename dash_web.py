@@ -28,13 +28,15 @@ app.title = "Air Quality Analytics"
 # App layout
 app.layout = html.Div(
     children=[
+        html.Div(style={'height': '30px'}),
         html.Div(
             children=[
                 html.P(children="☁️ Air Quality Analytics ☁️", className="header-emoji"),
-                html.H1(children="Air Quality Analytics", className="header-title"),
             ],
             className="header",
         ),
+        # Add an empty div with height to create space
+        html.Div(style={'height': '45px'}),  # Adjust height as needed
         html.Div(
             children=[
                 html.Div(
@@ -110,7 +112,7 @@ app.layout = html.Div(
                 children=[
                     html.Div(
                         children=[
-                            html.Div(children="Parameter", className="menu-title"),
+                            html.Div(children="Parameter For Predict Next Week", className="menu-title"),
                             dcc.Dropdown(
                                 id="parameter-predict",
                                 options=[
