@@ -4,8 +4,15 @@ from dash import Dash, html, dcc, callback, Output, Input
 import dash_bootstrap_components as dbc
 
 # Load Data
-data = pd.read_csv("team_project/air4thai_44t_stations_data.csv")
-predict_data = pd.read_csv("team_project/air4thai_44t_stations_data.csv")
+data = pd.read_csv("team_project/air4thai_44t_2024-02-01_2024-02-29.csv")
+
+#data ส่วน Predict
+predict_simulate = pd.read_csv("team_project/modelpm25_regression_simulate.csv")
+predict_real = pd.read_csv("team_project/modelpm25_regression_real.csv")
+
+#data ส่วน quality
+quality_simulate = pd.read_csv("team_project/quality_of_modelpm25_regression_simulate.csv")
+quality_real = pd.read_csv("team_project/quality_of_modelpm25_regression_real.csv")
 
 # Data Preprocessing
 data["DATETIMEDATA"] = pd.to_datetime(data["DATETIMEDATA"], format="%Y-%m-%d %H:%M:%S")
@@ -76,7 +83,7 @@ app.layout = html.Div(
                             className="menu-title"
                         ),
                         dcc.Dropdown(
-                            id="chart-type",
+                            id="charttype",
                             options=[
                                 {"label": "Line Chart", "value": "line"},
                                 {"label": "Bar Chart", "value": "bar"},
@@ -131,12 +138,12 @@ app.layout = html.Div(
                 children=[
                     html.Div(
                         children=[
-                            html.Div(children="Parameter For Predict Next Week", className="menu-title"),
+                            html.Div(children="Parameter", className="menu-title"),
                             dcc.Dropdown(
                                 id="parameter-predict",
                                 options=[
                                     {"label": param, "value": param}
-                                    for param in predict_data.columns[1:]
+                                    for param in predict_simulate.columns[1:]
                                 ],
                                 value="PM25",
                                 clearable=False,
@@ -144,14 +151,14 @@ app.layout = html.Div(
                             ),
                         ]
                     ),
-                    html.Div(
+                html.Div(
                     children=[
                         html.Div(
                             children="Chart Type",
                             className="menu-title"
                         ),
                         dcc.Dropdown(
-                            id="chart-type",
+                            id="chart-type1",
                             options=[
                                 {"label": "Line Chart", "value": "line"},
                                 {"label": "Bar Chart", "value": "bar"},
@@ -162,15 +169,165 @@ app.layout = html.Div(
                             className="dropdown",
                         ),
                     ]
-                )
-                ],
-                className= "menu"
+                ),
+            ],
+            className= "menu"
         ),
         html.Div(
             children=[
                 html.Div(
                     children=dcc.Graph(
-                        id="predict-chart", config={"displayModeBar": False},
+                        id="predict-simulate", config={"displayModeBar": False},
+                    ),
+                    className="card",
+                ),
+            ],
+            className="wrapper",
+        ),
+        html.Div(
+                children=[
+                    html.Div(
+                        children=[
+                            html.Div(children="Parameter", className="menu-title"),
+                            dcc.Dropdown(
+                                id="parameter-predict",
+                                options=[
+                                    {"label": param, "value": param}
+                                    for param in predict_simulate.columns[1:]
+                                ],
+                                value="PM25",
+                                clearable=False,
+                                className="dropdown",
+                            ),
+                        ]
+                    ),
+                html.Div(
+                    children=[
+                        html.Div(
+                            children="Chart Type",
+                            className="menu-title"
+                        ),
+                        dcc.Dropdown(
+                            id="chart-type2",
+                            options=[
+                                {"label": "Line Chart", "value": "line"},
+                                {"label": "Bar Chart", "value": "bar"},
+                                {"label": "Scatter Plot", "value": "scatter"},
+                            ],
+                            value="line",
+                            clearable=False,
+                            className="dropdown",
+                        ),
+                    ]
+                ),
+            ],
+            className= "menu"
+        ),
+        html.Div(
+            children=[
+                html.Div(
+                    children=dcc.Graph(
+                        id="quality-simulate", config={"displayModeBar": False},
+                    ),
+                    className="card",
+                ),
+            ],
+            className="wrapper",
+        ),
+        html.Div(
+                children=[
+                    html.Div(
+                        children=[
+                            html.Div(children="Parameter", className="menu-title"),
+                            dcc.Dropdown(
+                                id="parameter-predict",
+                                options=[
+                                    {"label": param, "value": param}
+                                    for param in predict_simulate.columns[1:]
+                                ],
+                                value="PM25",
+                                clearable=False,
+                                className="dropdown",
+                            ),
+                        ]
+                    ),
+                html.Div(
+                    children=[
+                        html.Div(
+                            children="Chart Type",
+                            className="menu-title"
+                        ),
+                        dcc.Dropdown(
+                            id="chart-type3",
+                            options=[
+                                {"label": "Line Chart", "value": "line"},
+                                {"label": "Bar Chart", "value": "bar"},
+                                {"label": "Scatter Plot", "value": "scatter"},
+                            ],
+                            value="line",
+                            clearable=False,
+                            className="dropdown",
+                        ),
+                    ]
+                ),
+            ],
+            className= "menu"
+        ),
+        html.Div(
+            children=[
+                html.Div(
+                    children=dcc.Graph(
+                        id="predict-real", config={"displayModeBar": False},
+                    ),
+                    className="card",
+                ),
+            ],
+            className="wrapper",
+        ),
+        html.Div(
+                children=[
+                    html.Div(
+                        children=[
+                            html.Div(children="Parameter", className="menu-title"),
+                            dcc.Dropdown(
+                                id="parameter-predict",
+                                options=[
+                                    {"label": param, "value": param}
+                                    for param in predict_simulate.columns[1:]
+                                ],
+                                value="PM25",
+                                clearable=False,
+                                className="dropdown",
+                            ),
+                        ]
+                    ),
+                html.Div(
+                    children=[
+                        html.Div(
+                            children="Chart Type",
+                            className="menu-title"
+                        ),
+                        dcc.Dropdown(
+                            id="chart-type4",
+                            options=[
+                                {"label": "Line Chart", "value": "line"},
+                                {"label": "Bar Chart", "value": "bar"},
+                                {"label": "Scatter Plot", "value": "scatter"},
+                            ],
+                            value="line",
+                            clearable=False,
+                            className="dropdown",
+                        ),
+                    ]
+                ),
+            ],
+            className= "menu"
+        ),
+        html.Div(
+            children=[
+                html.Div(
+                    children=dcc.Graph(
+                        id="quality-real", config={"displayModeBar": False},
                     ),
                     className="card",
                 ),
@@ -187,7 +344,7 @@ app.layout = html.Div(
         Input("parameter-filter", "value"),
         Input("date-range", "start_date"),
         Input("date-range", "end_date"),
-        Input("chart-type", "value"),
+        Input("charttype", "value"),
     ],
 )
 def update_chart(selected_parameter, start_date, end_date, chart_type):
@@ -269,13 +426,15 @@ def update_stats_table(selected_parameter, start_date, end_date):
     title = html.Div(children=f"Statistics - {selected_parameter} ({start_date}-{end_date})", className="menu-title")
     return [title, stats_table]
 
+
+#predict_simulate
 @app.callback(
-    Output("predict-chart", "figure"),
+    Output("predict-simulate", "figure"),
     [
         Input("parameter-predict", "value"),
         Input("date-range", "start_date"),
         Input("date-range", "end_date"),
-        Input("chart-type", "value"),
+        Input("chart-type1", "value"),
     ],
 )
 def update_predict_chart(selected_parameter, start_date, end_date, chart_type):
@@ -283,7 +442,7 @@ def update_predict_chart(selected_parameter, start_date, end_date, chart_type):
         (data["DATETIMEDATA"] >= start_date)
         & (data["DATETIMEDATA"] <= end_date)
     )
-    filtered_data = predict_data.loc[mask]
+    filtered_data = predict_simulate.loc[mask]
     if chart_type == "line":
         trace = {
             "x": filtered_data["DATETIMEDATA"],
@@ -305,10 +464,145 @@ def update_predict_chart(selected_parameter, start_date, end_date, chart_type):
         }
 
     layout = {
-        "title": f"{selected_parameter} Prediction for the next week",
+        "title": f"{selected_parameter} Prediction Simulate",
         "xaxis": {"title": "Datetime"},
         "yaxis": {"title": selected_parameter},
         "colorway": ["#ec407a"]
+    }
+    return {"data": [trace], "layout": layout}
+
+
+#quality_simulate
+@app.callback(
+    Output("quality-simulate", "figure"),
+    [
+        Input("parameter-predict", "value"),
+        Input("date-range", "start_date"),
+        Input("date-range", "end_date"),
+        Input("chart-type2", "value"),
+    ],
+)
+def quality_simulate_chart(selected_parameter, start_date, end_date, chart_type):
+    mask = (
+        (data["DATETIMEDATA"] >= start_date)
+        & (data["DATETIMEDATA"] <= end_date)
+    )
+    filtered_data = quality_simulate.loc[mask]
+    if chart_type == "line":
+        trace = {
+            "x": filtered_data["DATETIMEDATA"],
+            "y": filtered_data[selected_parameter],
+            "type": "line",
+        }
+    elif chart_type == "scatter":
+        trace = {
+            "x": filtered_data["DATETIMEDATA"],
+            "y": filtered_data[selected_parameter],
+            "mode": "markers",  
+            "type": "scatter",
+        }
+    elif chart_type == "bar":
+        trace = {
+            "x": filtered_data["DATETIMEDATA"],
+            "y": filtered_data[selected_parameter],
+            "type": "bar",
+        }
+
+    layout = {
+        "title": f"Quality of model {selected_parameter} simulate",
+        "xaxis": {"title": "Datetime"},
+        "yaxis": {"title": selected_parameter},
+        "colorway": ["#ec407a"]
+    }
+    return {"data": [trace], "layout": layout}
+
+
+#predict_real
+@app.callback(
+    Output("predict-real", "figure"),
+    [
+        Input("parameter-predict", "value"),
+        Input("date-range", "start_date"),
+        Input("date-range", "end_date"),
+        Input("chart-type3", "value"),
+    ],
+)
+def predict_real_chart(selected_parameter, start_date, end_date, chart_type):
+    mask = (
+        (data["DATETIMEDATA"] >= start_date)
+        & (data["DATETIMEDATA"] <= end_date)
+    )
+    filtered_data = predict_real.loc[mask]
+    if chart_type == "line":
+        trace = {
+            "x": filtered_data["DATETIMEDATA"],
+            "y": filtered_data[selected_parameter],
+            "type": "line",
+        }
+    elif chart_type == "scatter":
+        trace = {
+            "x": filtered_data["DATETIMEDATA"],
+            "y": filtered_data[selected_parameter],
+            "mode": "markers",  
+            "type": "scatter",
+        }
+    elif chart_type == "bar":
+        trace = {
+            "x": filtered_data["DATETIMEDATA"],
+            "y": filtered_data[selected_parameter],
+            "type": "bar",
+        }
+
+    layout = {
+        "title": f"{selected_parameter} Prediction Real",
+        "xaxis": {"title": "Datetime"},
+        "yaxis": {"title": selected_parameter},
+        "colorway": ["#a3e9a4"]
+    }
+    return {"data": [trace], "layout": layout}
+
+
+#quality_real
+@app.callback(
+    Output("quality-real", "figure"),
+    [
+        Input("parameter-predict", "value"),
+        Input("date-range", "start_date"),
+        Input("date-range", "end_date"),
+        Input("chart-type4", "value"),
+    ],
+)
+def quality_real_chart(selected_parameter, start_date, end_date, chart_type):
+    mask = (
+        (data["DATETIMEDATA"] >= start_date)
+        & (data["DATETIMEDATA"] <= end_date)
+    )
+    filtered_data = quality_real.loc[mask]
+    if chart_type == "line":
+        trace = {
+            "x": filtered_data["DATETIMEDATA"],
+            "y": filtered_data[selected_parameter],
+            "type": "line",
+        }
+    elif chart_type == "scatter":
+        trace = {
+            "x": filtered_data["DATETIMEDATA"],
+            "y": filtered_data[selected_parameter],
+            "mode": "markers",  
+            "type": "scatter",
+        }
+    elif chart_type == "bar":
+        trace = {
+            "x": filtered_data["DATETIMEDATA"],
+            "y": filtered_data[selected_parameter],
+            "type": "bar",
+        }
+
+    layout = {
+        "title": f"Quality of model {selected_parameter} real",
+        "xaxis": {"title": "Datetime"},
+        "yaxis": {"title": selected_parameter},
+        "colorway": ["#a3e9a4"]
     }
     return {"data": [trace], "layout": layout}
 
