@@ -1,7 +1,7 @@
 body {
     font-family: "Lato", sans-serif;
     margin: 0;
-    background-color: #c7c7c7;
+    background-color: #fce1ff;
 }
 
 .dash {
@@ -51,7 +51,7 @@ body {
     display: flex;
     justify-content: space-evenly;
     padding-top: 24px;
-    margin: -80px auto 0 auto;
+    margin: 0 auto;
     background-color: #FFFFFF;
     box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.18);
 }
