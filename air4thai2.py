@@ -3,8 +3,8 @@ from pprint import pformat
 
 station_id = "44t"
 # param = "PM25,PM10,O3,CO,NO2,SO2,WS,TEMP,RH,WD"
-param = "PM25,O3,WS,TEMP,RH,WD"
-# param = "O3,WS,TEMP,RH,WD"
+# param = "PM25,O3,WS,TEMP,RH,WD"
+param = "O3,WS,TEMP,RH,WD"
 data_type = "hr"
 start_date = "2024-03-01"
 end_date = "2024-03-07"
