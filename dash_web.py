@@ -4,7 +4,7 @@ from dash import Dash, html, dcc, callback, Output, Input
 import dash_bootstrap_components as dbc
 
 # Load Data
-data = pd.read_csv("team_project/air4thai_44t_2024-02-01_2024-02-29.csv")
+data = pd.read_csv("team_project/clean_data_2024-02-01_2024-02-29.csv")
 
 #data ส่วน Predict
 predict_simulate = pd.read_csv("team_project/modelpm25_regression_simulate.csv")
