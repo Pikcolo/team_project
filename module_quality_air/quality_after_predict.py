@@ -17,7 +17,7 @@ def avg_factor_quality(input_file):
         (para_avg['PM25'] > 90)
     ]
     choices = ['very good', 'good', 'medium', 'bad', 'very bad']
-    para_avg['PM25_label'] = np.select(conditions, choices, default='Unknown')
+    para_avg['air_quality'] = np.select(conditions, choices, default='Unknown')
     
     output_file = f"quality_of_{input_file}"
     para_avg.to_csv(output_file, index=True, float_format='%.2f')
