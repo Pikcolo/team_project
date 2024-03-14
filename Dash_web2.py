@@ -182,7 +182,7 @@ app.layout = html.Div(
                     className="data-table",
                     children=[
                         dash_table.DataTable(
-                            id="data-table",
+                            id="data-table-simulate",
                             columns=[
                                 {"name": col, "id": col} for col in quality_simulate.columns
                             ],
@@ -262,7 +262,7 @@ app.layout = html.Div(
                     className="data-table",
                     children=[
                         dash_table.DataTable(
-                            id="data-table",
+                            id="data-table-real",
                             columns=[
                                 {"name": col, "id": col} for col in quality_real.columns
                             ],
