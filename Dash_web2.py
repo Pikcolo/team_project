@@ -287,9 +287,10 @@ app.layout = html.Div(
                             ],
                         )
                     ],
-                    style={"width": "70%", "higth": "150%", "margin": "auto"} 
+                    style={"width": "70%", "height": "150%", "margin": "auto"}
                 ),
             ],
+            style={"margin-bottom": "60px"}
         )
     ]
 )
